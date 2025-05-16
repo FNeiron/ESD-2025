@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="create-order-table" author="your_name">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ORDER_"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ORDER_">
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORDER_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_ADDRESS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_ADDRESS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORDERSUM" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CUSTOMER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TAXI_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="ORDER_"
+                                 baseColumnNames="CUSTOMER_ID"
+                                 constraintName="FK_ORDER_CUSTOMER"
+                                 referencedTableName="CUSTOMER"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ORDER_"
+                                 baseColumnNames="TAXI_ID"
+                                 constraintName="FK_ORDER_TAXI"
+                                 referencedTableName="TAXI"
+                                 referencedColumnNames="ID"/>
+
+        <createIndex tableName="ORDER_" indexName="IDX_ORDER__CUSTOMER">
+            <column name="CUSTOMER_ID"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
