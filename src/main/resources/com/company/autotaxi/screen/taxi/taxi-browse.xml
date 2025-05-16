@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://taxiBrowse.caption"
+        focusComponent="taxisTable">
+    <data readOnly="true">
+        <collection id="taxisDc"
+                    class="com.company.autotaxi.entity.Taxi">
+            <fetchPlan extends="_base"/>
+            <loader id="taxisDl">
+                <query>
+                    <![CDATA[select e from Taxi e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="taxisTable" spacing="true">
+        <filter id="filter"
+                dataLoader="taxisDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="taxisTable"
+                    width="100%"
+                    dataContainer="taxisDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="number"/>
+                <column id="category"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="taxisTable.create"/>
+                <button id="editBtn" action="taxisTable.edit"/>
+                <button id="removeBtn" action="taxisTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
